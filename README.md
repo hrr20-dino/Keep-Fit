@@ -49,13 +49,17 @@ If you want to test out any mySQL queries follow the installation instructions h
 
 ### Usage
 To run Keep-Fit on your local machine:
-1. Import database by running:
-``` sh
-mysql -u root -p<password> < server/db/schema.sql
-```
+Import database by running:
+
+1. `mysql -u root`
+2. At the `mysql>` prompt enter `CREATE DATABASE keepFit`
+3. `exit`
+4. `mysql -u root -p keepFit < schema.sql`
+5. when prompted for the password, just hit <enter>
+
 Password is defined in [server/db/index.js](server/db/index.js) (default is: 1214).
 
-1. After installing dependencies run:
+After installing dependencies run:
 ``` sh
 nodemon server/server.js
 ```

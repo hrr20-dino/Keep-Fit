@@ -4,3 +4,5 @@ server/db/index.js
 server/db/schema.sql
 .floo
 .flooignore
+.idea/
+server/npm-debug.log
