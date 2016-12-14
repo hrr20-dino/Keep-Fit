@@ -19,6 +19,7 @@ When writing any block of code that is logically subordinate to the line immedia
         ```
 
     * When a line closes a block, that line starts at the same level as the line that opened the block
+    
         ```javascript
         // good:
         if(condition){
@@ -83,9 +84,9 @@ When writing any block of code that is logically subordinate to the line immedia
 
 ### Language constructs
 
-* Do not use `for...in` statements with the intent of iterating over a list of numeric keys. Use a for-with-semicolons statement in stead.
+* Do not use `for...in` statements with the intent of iterating over a list of numeric keys. Use a for-with-semicolons statement instead.
 
-  ```javascript
+```javascript
   // good:
   var list = ['a', 'b', 'c']
   for(var i = 0; i < list.length; i++){
@@ -97,9 +98,10 @@ When writing any block of code that is logically subordinate to the line immedia
   for(var i in list){
     alert(list[i]);
   }
-  ```
+```
 
 * Never omit braces for statement blocks (although they are technically optional).
+
     ```javascript
     // good:
     for(key in object){
@@ -144,18 +146,18 @@ When writing any block of code that is logically subordinate to the line immedia
 
 * Don't forget semicolons at the end of lines
 
-  ```javascript
+```javascript
   // good:
   alert('hi');
 
   // bad:
   alert('hi')
-  ```
+```
 
 * Semicolons are not required at the end of statements that include a block--i.e. `if`, `for`, `while`, etc.
 
 
-  ```javascript
+```javascript
   // good:
   if(condition){
     response();
@@ -165,11 +167,11 @@ When writing any block of code that is logically subordinate to the line immedia
   if(condition){
     response();
   };
-  ```
+```
 
 * Misleadingly, a function may be used at the end of a normal assignment statement, and would require a semicolon (even though it looks rather like the end of some statement block).
 
-  ```javascript
+```javascript
   // good:
   var greet = function(){
     alert('hi');
@@ -179,7 +181,7 @@ When writing any block of code that is logically subordinate to the line immedia
   var greet = function(){
     alert('hi');
   }
-  ```
+```
 
 # Supplemental reading
 
@@ -218,6 +220,7 @@ When writing any block of code that is logically subordinate to the line immedia
     ```
 
 * Put `else` and `else if` statements on the same line as the ending curly brace for the preceding `if` block
+
     ```javascript
     // good:
     if(condition){
