@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 const Workout = require('./workoutModel');
-const Exercise = require('./exerciseModel');
+const Exercise = require('../exercises/exerciseModel');
 
 module.exports = {
   //Adds a user's routine to the Routine table

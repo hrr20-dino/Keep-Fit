@@ -2,17 +2,17 @@ var helpers = require('./helper.js'); // custom middleware
 var morgan = require('morgan'); //<-- debugging
 var bodyParser = require('body-parser');
 var path = require('path');
-var workoutController = require('./api/users/workoutController.js');
-var exerciseController = require('./api/exerciseController.js');
+var workoutController = require('./api/workouts/workoutController.js');
+var exerciseController = require('./api/exercises/exerciseController.js');
 var userController = require('./api/users/userController.js');
 
 module.exports = function (app, express) {
   // app.use(morgan()); //<-- debugging
-  app.use(session({
-    secret: 'shhh, it\'s a secret',
-    resave: false,
-    saveUninitialized: true
-  }));
+  // app.use(session({
+  //   secret: 'shhh, it\'s a secret',
+  //   resave: false,
+  //   saveUninitialized: true
+  // }));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded());
@@ -25,6 +25,8 @@ module.exports = function (app, express) {
     response.sendFile(path.join(__dirname, '../client/index.html'));
   });
 
+  //initiatie express.Router();
+  var router = express.Router();
   //these are the api endpoints and routes.
   router.route('/users')
     .get(userController.getAllUsers)// gets an array of all the users in the database

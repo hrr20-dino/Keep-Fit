@@ -1,8 +1,8 @@
 const Promise = require('bluebird');
 const User = require('./userModel');
-const jwt = require('jwt-simple');
+//const jwt = require('jwt-simple');
 //const session = require('express-session');
-var bcrypt = require('bcrypt-nodejs');
+//var bcrypt = require('bcrypt-nodejs');
 var SALT_WORK_FACTOR = 10;
 
 
@@ -69,7 +69,7 @@ module.exports = {
         res.redirect('/signup');
       }
     });
-  };
+  },
 
 
   checkAuth: function (req, res, next) {
@@ -124,6 +124,16 @@ module.exports = {
 
   //Deletes a user's routine from the Routine table
   deleteUser: function(req, res, next) {
+
+    // .then(function() {
+    //   res.status(200).send('Routine successfully deleted!')
+    // })
+    // .catch(function(error){
+    //   res.send(error);
+    // });
+  },
+
+  addUser: function(req, res, next) {
 
     // .then(function() {
     //   res.status(200).send('Routine successfully deleted!')

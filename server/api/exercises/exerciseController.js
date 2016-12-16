@@ -25,5 +25,14 @@ module.exports = {
     //   res.send(error);
     // });
   },
+  addExercise: function(req, res, next) {
+
+    // .then(function(routines){
+    //   res.status(200).json(routines);
+    // })
+    // .catch(function(error) {
+    //   res.send(error);
+    // });
+  },
 
 }
