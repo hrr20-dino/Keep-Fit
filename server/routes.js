@@ -1,5 +1,4 @@
 var helpers = require('./helper.js'); // custom middleware
-//var requestHandler = require('./requestHandler');
 var morgan = require('morgan'); //<-- debugging
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -9,6 +8,11 @@ var userController = require('./api/users/userController.js');
 
 module.exports = function (app, express) {
   // app.use(morgan()); //<-- debugging
+  app.use(session({
+    secret: 'shhh, it\'s a secret',
+    resave: false,
+    saveUninitialized: true
+  }));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded());

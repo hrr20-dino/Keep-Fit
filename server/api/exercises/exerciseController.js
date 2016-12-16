@@ -6,14 +6,7 @@ module.exports = {
   updateExercise: function (req, res, next) {
 
 
-    // Models.Routine.build({
-    //   name: req.body.name,
-    //   description: req.body.description,
-    //   start_time: req.body.start_time,
-    //   end_time: req.body.end_time,
-    //   repeat: req.body.repeat,
-    //   completed: req.body.completed
-    // }).save()
+
     // .then(function(){
     //   res.status(201).send('Successfully created routine!')
     // })

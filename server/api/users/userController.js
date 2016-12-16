@@ -1,18 +1,101 @@
 const Promise = require('bluebird');
 const User = require('./userModel');
+const jwt = require('jwt-simple');
+//const session = require('express-session');
+var bcrypt = require('bcrypt-nodejs');
+var SALT_WORK_FACTOR = 10;
+
+
+//utility functions------------------------------------
+///////////////////////////
+
+var isLoggedIn = function(req) {
+  return req.session ? !!req.session.user : false;
+};
+
+var checkUser = function(req, res, next){
+  if (!isLoggedIn(req)) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+};
+
+///////////////////////////
+//-----------------------------------------------------
+
 
 module.exports = {
-  //Adds a user's routine to the Routine table
-  addUser: function (req, res, next) {
+    signin: function (req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
 
+    User.findOne({username: username})
+      .then(function(user) {
+        if (!user) {
+          res.redirect('/login');
+        } else {
+          bcrypt.compare(password, user.get('password'), function(err, match) {
+            if (match) {
+              var token = jwt.encode(user, 'secret');
+              res.json({token: token});
+            } else {
+              res.redirect('/login');
+            }
+          });
+        }
+    });
 
-    // .then(function(){
-    //   res.status(201).send('Successfully created routine!')
-    // })
-    // .catch(function(error){
-    //   res.status(404).send(error);
-    // })
   },
+
+  signup: function (req, res, next) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  User.create({ username: username })
+    .fetch()
+    .then(function(user) {
+      if (!user) {
+        bcrypt.hash(password, null, null, function(err, hash) {
+          Users.create({
+            username: username,
+            password: hash
+          }).then(function(user) {
+              createSession(req, res, user);
+          });
+        });
+      } else {
+        console.log('Account already exists');
+        res.redirect('/signup');
+      }
+    });
+  };
+
+
+  checkAuth: function (req, res, next) {
+    // checking to see if the user is authenticated
+    // grab the token in the header is any
+    // then decode the token, which we end up being the user object
+    // check to see if that user exists in the database
+    var token = req.headers['x-access-token'];
+    if (!token) {
+      next(new Error('No token'));
+    } else {
+      var user = jwt.decode(token, 'secret');
+      findUser({username: user.username})
+        .then(function (foundUser) {
+          if (foundUser) {
+            res.send(200);
+          } else {
+            res.send(401);
+          }
+        })
+        .fail(function (error) {
+          next(error);
+        });
+    }
+  },
+
 
   //Gets the routines for the current user
   getAllUsers: function(req, res, next) {
