@@ -1,38 +1,52 @@
 const Promise = require('bluebird');
 const Workout = require('./workoutModel');
+const Exercise = require('./exerciseModel');
 
 module.exports = {
   //Adds a user's routine to the Routine table
   getWorkouts: function (req, res, next) {
-
-
-    // Models.Routine.build({
-    //   name: req.body.name,
-    //   description: req.body.description,
-    //   start_time: req.body.start_time,
-    //   end_time: req.body.end_time,
-    //   repeat: req.body.repeat,
-    //   completed: req.body.completed
-    // }).save()
-    // .then(function(){
-    //   res.status(201).send('Successfully created routine!')
-    // })
-    // .catch(function(error){
-    //   res.status(404).send(error);
-    // })
+    var user = req.params.userId;
+    Workout.find({ userId: user })
+    .then(function(workouts){
+      res.status(200).json(workouts)
+    })
+    .catch(function(error){
+      res.status(404).send(error);
+    })
   },
 
   //Gets the routines for the current user
   addWorkout: function(req, res, next) {
+    var user = req.params.userId;
+    var newWorkout = {
+      userId: user,
+      exercise: req.body.exercises //<-- exercises array;
+    }
 
-
-    // .then(function(routines){
-    //   res.status(200).json(routines);
-    // })
-    // .catch(function(error) {
-    //   res.send(error);
-    // });
+    Workout.create(newWorkout)
+    .then(function(newWorkout){
+      res.status(200).json(newWorkout);
+    })
+    .catch(function(error){
+      res.status(404).send(error);
+    })
   },
+
+    //-----------The following concept can be implemented for future versions if you decide to use an       exercise schema.
+    //
+    //
+    // var exercises = req.body.exercises //<-- should be an array
+    // exercises.forEach(exercise) {
+    //   var newExercise = {
+    //     workoutId: req.params.workoutId,
+    //     name: exercise.name,
+    //     type: exercise.type,
+    //     metrics: exercise.metrics //<-- should be an array
+    //   }
+    //    Exercise.create(exercise)
+    // }
+    //
+
 
   //Gets a single routine for a user
   getWorkout: function(req, res, next) {
