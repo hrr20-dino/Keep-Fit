@@ -100,3 +100,12 @@ table {
 .setDisplay:nth-child(even) {
   background-color: rgb(213, 199, 238);
 }
+
+.panel {
+  /*padding: 50px;*/
+  /*background-color: inherit;*/
+}
+.heat {
+  padding: 20px;
+
+}
