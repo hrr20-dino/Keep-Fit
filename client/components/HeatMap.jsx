@@ -6,7 +6,24 @@ export default class HeatMap extends React.Component {
     };
   }
 
+  getTimeStamps(){
+    $.get(`/api/users/$userId`, (err, resp) => {
+      if (err) {
+        console.log('Error grabbing timestamps: ', err);
+      } else {
+        var obj = {};
+        var timestamps = resp.data;
+        for (var i = 0; i < timestamps.length; i++) {
+          var curr = timestamps[i];
+          obj[curr.timestamp] = 30;
+        }
+        this.setState(obj);
+      }
+    });
+  }
+
   render() {
+
     return (
       <div>
       {
@@ -14,9 +31,7 @@ export default class HeatMap extends React.Component {
           itemSelector: '.heatmap',
           start: new Date( 2016, 0, 1 ),
           end: new Date( 2016, 12, 31 ),
-          data: {
-            "1481906273" : 29
-          },
+          data: this.state,
           domain: 'month',
           legendColors: {
             min: "#efefef",
