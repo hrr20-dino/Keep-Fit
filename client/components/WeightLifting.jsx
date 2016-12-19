@@ -57,7 +57,6 @@ export default class WeightLifting extends React.Component {
     newWorkout.type = 'weight-lifting';
     newWorkout.name = this.state.workoutName;
     newWorkout.exercises = JSON.stringify(this.state.exercises);
-
     var userId = window.sessionStorage.user;
     $.post(`api/users/${userId}/workouts`, newWorkout, (err, resp)=>{
       if(err) {
@@ -89,7 +88,7 @@ export default class WeightLifting extends React.Component {
                   <thead>
                     <tr>
                       <td>Exercise</td>
-                      <td>Weight</td>
+                      <td>Weight (lbs.)</td>
                       <td>Reps</td>
                     </tr>
                   </thead>
