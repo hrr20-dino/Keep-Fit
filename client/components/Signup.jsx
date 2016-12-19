@@ -29,14 +29,15 @@ export default class Signup extends React.Component {
     newUser.name = this.state.name;
     newUser.pass = this.state.pass;
     $.post(`/api/signup/`, newUser, function(err, resp) {
-      if(err) {
-        console.log('Your account cannot be submitted at this time. Already ' +  err);
-      } else {
-        console.log('The following account has been submitted: ' + resp);
+      if(!err) {
+        throw 'Your account cannot be submitted at this time. Already ' +  err;
       }
     })
-    //browserHistory.push('/');
-
+    .done(function(body) {
+      window.localStorage.setItem('com.FitKeeper', body.token);
+      window.sessionStorage.setItem('user', body.name)
+      browserHistory.push(`/`);
+    })
   }
 
 
