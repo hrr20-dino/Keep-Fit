@@ -12,6 +12,14 @@ export default class Nav extends React.Component {
 
   }
 
+  signOut() {
+    localStorage.removeItem('com.FitKeeper');
+    sessionStorage.removeItem('user');
+    return (
+      <Link to='/signin'>Sign Out</Link>
+    )
+  }
+
   reRouteAddWorkout() {
     return (
       <Link to='/lifting'>Add Workout</Link>
@@ -26,11 +34,13 @@ export default class Nav extends React.Component {
             <div className="navbar-header">
               <img className="logo" src="../../assets/kf.png"/>
             </div>
-              {/* This is where we could add dynamic user login status
-            <div className="navbar-right text-white">User</div>*/}
+            <button type="button" className="btn btn-default btn-sm navbutton-left">
+              {this.signOut()}
+            </button>
             <button type="button" className="btn btn-default btn-lg navbutton-right">
               {this.reRouteAddWorkout()}
             </button>
+
           </nav>
         </div>
       </div>
