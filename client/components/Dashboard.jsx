@@ -11,6 +11,7 @@ export default class Dashboard extends React.Component {
       running: []
     };
     this.getUsersWorkouts = this.getUsersWorkouts.bind(this);
+    this.completeWorkoutHandler = this.completeWorkoutHandler.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,7 @@ export default class Dashboard extends React.Component {
   }
 
   completeWorkoutHandler() {
+    var userId = window.sessionStorage.user;
     var didTheThing = {};
     didTheThing.workedOut = true;
     $.post(`api/users/${userId}/events`, didTheThing, function(err, resp) {
@@ -54,7 +56,7 @@ export default class Dashboard extends React.Component {
         {<Nav />}
         <div className="container-fluid">
           <div className="flex-center">
-            <HeatMap />
+            {<HeatMap />}
           </div>
           <div className="row">
             {this.state.weightLifting.map( (workout, index) => {
