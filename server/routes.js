@@ -54,6 +54,15 @@ module.exports = function (app, express) {
     .get(eventController.getEvents)
     .post(eventController.addEvent);
 
+///----------TESTING HERE------////
+  router.route('/signup')
+    .post(userController.signUp)
+
+  router.route('/signin')
+    .post(userController.signIn)
+
+///----------------------------////
+
 
   app.use('/api', router);
   app.use(helpers.errorLogger);

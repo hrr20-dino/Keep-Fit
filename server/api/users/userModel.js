@@ -6,6 +6,8 @@ const WorkoutSchema = mongoose.model('Workout').schema;
 
 const UserSchema = new mongoose.Schema({
   name: String,
+  pass: String,
+  salt: String,
   events: [EventSchema],
   workouts: [WorkoutSchema]
 });

@@ -10,7 +10,8 @@ export default class HeatMap extends React.Component {
 
   getTimeStamps(){
     var that = this;
-     $.get(`/api/users/58558734c1d326328681480a/events`, (resp) => {
+    var userId = window.sessionStorage.user;
+     $.get(`/api/users/${userId}/events`, (resp) => {
        if (resp) {
          var obj = {};
          for (var i = 0; i < resp.length; i++) {

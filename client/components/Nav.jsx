@@ -9,11 +9,12 @@ export default class Nav extends React.Component {
     this.state= {
 
     }
+
   }
 
   reRouteAddWorkout() {
     return (
-      <Link to="/lifting">Add Workout</Link>
+      <Link to='/lifting'>Add Workout</Link>
     )
   }
 
@@ -23,7 +24,7 @@ export default class Nav extends React.Component {
         <div className="container-fullwidth">
           <nav className="navbar navbar-default navbar-static purple">
             <div className="navbar-header">
-              <img className="logo" src="../assets/kf.png"/>
+              <img className="logo" src="../../assets/kf.png"/>
             </div>
               {/* This is where we could add dynamic user login status
             <div className="navbar-right text-white">User</div>*/}

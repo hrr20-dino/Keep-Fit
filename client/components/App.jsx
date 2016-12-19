@@ -5,7 +5,8 @@ import Dashboard from './Dashboard.jsx';
 import WeightLifting from './WeightLifting.jsx';
 import HeatMap from './HeatMap.jsx';
 import Running from './Running.jsx';
-
+import Signup from './Signup.jsx';
+import Signin from './Signin.jsx';
 
 ReactDOM.render((
   <Router history={browserHistory}>
@@ -13,5 +14,7 @@ ReactDOM.render((
     <Route path='/lifting' component={WeightLifting}/>
     <Route path='/running' component={Running}/>
     <Route path='/heatmap' component={HeatMap}/>
+    <Route path='/signup' component={Signup}/>
+    <Route path='/signin' component={Signin}/>
   </Router>
 ), document.getElementById('app'));

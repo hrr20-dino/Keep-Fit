@@ -18,7 +18,9 @@ export default class Dashboard extends React.Component {
 
   getUsersWorkouts() {
     var that = this;
-    $.get(`/users/${userId}/workouts`, function(data) {
+    var userId = window.sessionStorage.user;
+    $.get(`/api/users/${userId}/workouts`, function(data) {
+
       if(data) {
         console.log('success!', data);
         data.forEach(function(workout) {
@@ -64,7 +66,7 @@ export default class Dashboard extends React.Component {
                           {workout.exercises.map( (exercise, index) => {
                             return (
                               <tr key={index}>
-                                <td>{exercise.name}</td>
+                                <td>{exercise.exercise}</td>
                                 <td>{exercise.weight}</td>
                                 <td>{exercise.reps}</td>
                               </tr>

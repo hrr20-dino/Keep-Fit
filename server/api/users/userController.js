@@ -1,9 +1,7 @@
-const Promise = require('bluebird');
-const User = require('./userModel');
-//const jwt = require('jwt-simple');
-//const session = require('express-session');
-//var bcrypt = require('bcrypt-nodejs');
-var SALT_WORK_FACTOR = 10;
+const jwt = require('jwt-simple');
+var bcrypt = require('bcrypt-nodejs');
+var Promise  = require('bluebird');
+var User = Promise.promisifyAll(require('./userModel'))
 
 
 //utility functions------------------------------------
@@ -26,51 +24,73 @@ var checkUser = function(req, res, next){
 
 
 module.exports = {
-    signin: function (req, res, next) {
-    var username = req.body.username;
-    var password = req.body.password;
+  signIn: function (req, res, next) {
+    const name = req.body.name;
+    const pass = req.body.pass;
 
-    User.findOne({username: username})
-      .then(function(user) {
+    User.findOne({name: name})
+      .then(function (user) {
+        console.log(user)
         if (!user) {
-          res.redirect('/login');
+          next(new Error('User does not exist'));
         } else {
-          bcrypt.compare(password, user.get('password'), function(err, match) {
+          bcrypt.compare(pass, user.get('pass'), function(err, match) {
             if (match) {
               var token = jwt.encode(user, 'secret');
-              res.json({token: token});
+              res.json({token: token, name: user._id});
             } else {
-              res.redirect('/login');
+              return next(new Error('No user'));
             }
-          });
+          })
         }
-    });
-
+      })
+      .catch(function (error) {
+        next(error);
+      });
   },
 
-  signup: function (req, res, next) {
-  var username = req.body.username;
-  var password = req.body.password;
+  signUp: function (req, res, next) {
+    const name = req.body.name;
+    const pass = req.body.pass;
 
-  User.create({ username: username })
-    .fetch()
-    .then(function(user) {
-      if (!user) {
-        bcrypt.hash(password, null, null, function(err, hash) {
-          Users.create({
-            username: username,
-            password: hash
-          }).then(function(user) {
-              createSession(req, res, user);
+  // check to see if user already exists
+  User.findOne({name: name})
+    .then(function (user) {
+      if (user) {
+        next(new Error('User already exist!'));
+      } else {
+        // make a new user if not one
+        return bcrypt.genSalt(10, function (err, salt) {
+          if (err) {
+            return next(err);
+          }
+          // hash the password along with our new salt
+          bcrypt.hash(pass, salt, null, function (err, hash) {
+            if (err) {
+              return next(err);
+            }
+            // override the cleartext password with the hashed one
+             User.create({
+              name: name,
+              pass: hash,
+              salt: salt
+            })
           });
         });
-      } else {
-        console.log('Account already exists');
-        res.redirect('/signup');
       }
+    })
+    .then(function () {
+      return User.findOne({name: name})
+    })
+    .then(function (user) {
+      // create token to send back for auth
+      var token = jwt.encode(name, 'secret');
+      res.json({token: token});
+    })
+    .catch(function (error) {
+      next(error);
     });
   },
-
 
   checkAuth: function (req, res, next) {
     // checking to see if the user is authenticated
@@ -165,6 +185,7 @@ module.exports = {
   },
 
   addUser: function(req, res, next) {
+    console.log(req.body)
     const newUser = new User(req.body);
     newUser.save((err) => {
       if (err) {

@@ -12,7 +12,6 @@ module.exports = {
         res.sendStatus(404)
       } else {
         res.json(user.workouts);
-
         next();
       }
     });
