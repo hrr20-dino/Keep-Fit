@@ -33,9 +33,18 @@
   display: block;
   right: 0px;
   bottom: 0px;
+  margin-right: 100px;
+  margin-bottom: 10px;
+}
+.navbutton-left {
+  position: absolute;
+  display: block;
+  right: 0px;
+  bottom: 0px;
   margin-right: 10px;
   margin-bottom: 10px;
 }
+
 
 .navbar .navbar-right {
   position: absolute;

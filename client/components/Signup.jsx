@@ -48,7 +48,7 @@ export default class Signup extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3 signup-form text-center">
-            <h1>Sign up!</h1>
+            <h1>Sign Up</h1>
               <div className="col-sm-6 col-sm-offset-3">
                 <form>
                   <label className="text-left">Username:
@@ -71,8 +71,11 @@ export default class Signup extends React.Component {
                   className="btn btn-default margin-top-10"
                   onClick={this.signUp}>Sign Up</button>
                 </form>
+                <h6>Already a member? <Link to='/signin'>Sign in Here!</Link></h6>
               </div>
+
           </div>
+
         </div>
       </div>
     )
