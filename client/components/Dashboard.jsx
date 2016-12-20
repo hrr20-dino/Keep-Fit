@@ -20,6 +20,7 @@ export default class Dashboard extends React.Component {
   completeWorkoutHandler() {
     var didTheThing = {};
     var userId = window.sessionStorage.user;
+    console.log("userID", userId)
     didTheThing.workedOut = true;
     $.post(`/api/users/${userId}/events`, didTheThing, function(resp) {
       if(resp) {

@@ -13,8 +13,6 @@ export default class Nav extends React.Component {
   }
 
   signOut() {
-    localStorage.removeItem('com.FitKeeper');
-    sessionStorage.removeItem('user');
     return (
       <Link to='/signin'>Sign Out</Link>
     )
