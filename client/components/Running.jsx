@@ -6,12 +6,12 @@ export default class Running extends React.Component {
     this.state = {
       time: 0,
       distance: 0,
-      workoutName: ''
+      workoutName: '',
     };
 
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleDistanceChange = this.handleDistanceChange.bind(this);
-    this.completeWorkout = this.completeWorkout.bind(this);
+    this.addWorkout = this.addWorkout.bind(this);
     this.handleWorkoutChange = this.handleWorkoutChange.bind(this);
   }
 
@@ -28,13 +28,21 @@ export default class Running extends React.Component {
   }
 
   // Submits packaged workout obj to db as x-www-form data.
-  completeWorkout(e) {
+  addWorkout(e) {
     e.preventDefault();
+    var run = {
+      time: this.state.time,
+      distance: this.state.distance
+      //grographical data
+    };
+    var exercises = [run];
+
     var newWorkout = {};
-    newWorkout.type = 'running';
-    newWorkout.workoutName = this.state.workoutName;
-    newWorkout.run = {time: this.state.time, distance: this.state.distance, /*add geographical data for google maps api*/}
     var userId = window.sessionStorage.user;
+
+    newWorkout.type = 'running';
+    newWorkout.name = this.state.workoutName;
+    newWorkout.exercises = JSON.stringify(exercises);
     $.post(`/api/users/${userId}/workouts`, newWorkout, (err, resp)=>{
       if(err) {
         console.log('Your run cannot be submitted at this time. ' +  err);
@@ -71,7 +79,7 @@ export default class Running extends React.Component {
                   <tbody>
                     <tr>
                       <td><input type="number" className="thin-width" value={this.state.time} onChange={this.handleTimeChange}/></td>
-                      <td><input type="number" className="thin-width" value={this.state.distance} onChange={this.handleDistanceChange}/></td>
+                      <td><input type="number" id="distanceField" className="thin-width" value={this.state.distance} onChange={this.handleDistanceChange} /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -79,10 +87,17 @@ export default class Running extends React.Component {
                   type='submit'
                   value='Add Workout'
                   className="btn btn-default margin-top-10"
-                  onClick={this.completeWorkout}
-                  >Complete Workout</button>
+                  onClick={this.addWorkout}
+                  >
+                  Complete Workout
+                </button>
               </form>
             </div>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col-sm-8 col-sm-offset-2'>
+            <div id='runningRoute'></div>
           </div>
         </div>
       </div>
