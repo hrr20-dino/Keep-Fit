@@ -35,7 +35,11 @@ export default class Signup extends React.Component {
         console.log('The following account has been submitted: ' + resp);
       }
     })
-    //browserHistory.push('/');
+    .done(function(body) {
+      window.localStorage.setItem('com.FitKeeper', body.token);
+      window.sessionStorage.setItem('user', body.name)
+      browserHistory.push(`/dashboard`);
+    })
 
   }
 
@@ -70,6 +74,7 @@ export default class Signup extends React.Component {
                   className="btn btn-default margin-top-10"
                   onClick={this.signUp}>Sign Up</button>
                 </form>
+                <h6>Already a member yet? <Link to='/signin'>Sign in Here!</Link></h6>
               </div>
           </div>
         </div>
