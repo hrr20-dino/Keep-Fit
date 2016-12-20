@@ -29,8 +29,10 @@ export default class Signin extends React.Component {
     newUser.name = this.state.name;
     newUser.pass = this.state.pass;
     $.post(`/api/signin/`, newUser, function (err, resp) {
-      if(!err) {
+      if(err) {
         console.log('Your account cannot be submitted at this time. Already ' +  err);
+      } else {
+        console.log('The following account has been submitted: ' + resp);
       }
     })
     .done(function(body) {
@@ -39,7 +41,10 @@ export default class Signin extends React.Component {
       browserHistory.push(`/`);
     })
 
+
   }
+
+
 
 
   render() {
@@ -47,7 +52,7 @@ export default class Signin extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3 signup-form text-center">
-            <h1>Sign In</h1>
+            <h1>Sign in!</h1>
               <div className="col-sm-6 col-sm-offset-3">
                 <form>
                   <label className="text-left">Username:
@@ -70,9 +75,8 @@ export default class Signin extends React.Component {
                   className="btn btn-default margin-top-10"
                   onClick={this.signIn}>Sign In</button>
                 </form>
-              <h6>Not a member yet? <Link to='/signup'>Sign up Here!</Link></h6>
+                <h6>Already a member? <Link to='/signin'>Sign in Here!</Link></h6>
               </div>
-
           </div>
         </div>
       </div>

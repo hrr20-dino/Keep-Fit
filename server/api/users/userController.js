@@ -7,17 +7,17 @@ var User = Promise.promisifyAll(require('./userModel'))
 //utility functions------------------------------------
 ///////////////////////////
 
-var isLoggedIn = function(req) {
-  return req.session ? !!req.session.user : false;
-};
+// var isLoggedIn = function(req) {
+//   return req.session ? !!req.session.user : false;
+// };
 
-var checkUser = function(req, res, next){
-  if (!isLoggedIn(req)) {
-    res.redirect('/login');
-  } else {
-    next();
-  }
-};
+// var checkUser = function(req, res, next){
+//   if (!isLoggedIn(req)) {
+//     res.redirect('/login');
+//   } else {
+//     next();
+//   }
+// };
 
 ///////////////////////////
 //-----------------------------------------------------
@@ -37,6 +37,7 @@ module.exports = {
             if (match) {
               var token = jwt.encode(user, 'secret');
               res.json({token: token, name: user._id});
+              console.log('LOOKIE HERE: ', user._id)
             } else {
               return next(new Error('No user'));
             }
