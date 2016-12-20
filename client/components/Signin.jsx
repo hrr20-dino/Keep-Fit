@@ -38,7 +38,7 @@ export default class Signin extends React.Component {
     .done(function(body) {
       window.localStorage.setItem('com.FitKeeper', body.token);
       window.sessionStorage.setItem('user', body.name)
-      browserHistory.push(`/`);
+      browserHistory.push(`/dashboard`);
     })
 
 
@@ -75,6 +75,7 @@ export default class Signin extends React.Component {
                   className="btn btn-default margin-top-10"
                   onClick={this.signIn}>Sign In</button>
                 </form>
+                <h6>Not a member yet? <Link to='/signup'>Sign up Here!</Link></h6>
               </div>
           </div>
         </div>
