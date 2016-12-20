@@ -7,17 +7,17 @@ var User = Promise.promisifyAll(require('./userModel'))
 //utility functions------------------------------------
 ///////////////////////////
 
-var isLoggedIn = function(req) {
-  return req.session ? !!req.session.user : false;
-};
+// var isLoggedIn = function(req) {
+//   return req.session ? !!req.session.user : false;
+// };
 
-var checkUser = function(req, res, next){
-  if (!isLoggedIn(req)) {
-    res.redirect('/login');
-  } else {
-    next();
-  }
-};
+// var checkUser = function(req, res, next){
+//   if (!isLoggedIn(req)) {
+//     res.redirect('/login');
+//   } else {
+//     next();
+//   }
+// };
 
 ///////////////////////////
 //-----------------------------------------------------
@@ -30,7 +30,6 @@ module.exports = {
 
     User.findOne({name: name})
       .then(function (user) {
-        console.log(user)
         if (!user) {
           next(new Error('User does not exist'));
         } else {
@@ -38,6 +37,7 @@ module.exports = {
             if (match) {
               var token = jwt.encode(user, 'secret');
               res.json({token: token, name: user._id});
+              console.log('LOOKIE HERE: ', user._id)
             } else {
               return next(new Error('No user'));
             }
@@ -59,33 +59,26 @@ module.exports = {
       if (user) {
         next(new Error('User already exist!'));
       } else {
-        // make a new user if not one
         return bcrypt.genSalt(10, function (err, salt) {
           if (err) {
             return next(err);
           }
-          // hash the password along with our new salt
           bcrypt.hash(pass, salt, null, function (err, hash) {
             if (err) {
               return next(err);
             }
-            // override the cleartext password with the hashed one
-             User.create({
+              return User.create({
               name: name,
               pass: hash,
               salt: salt
             })
+            .then(function(user) {
+              var token = jwt.encode(user, 'secret');
+              res.json({token: token, name: user._id});
+            })
           });
         });
       }
-    })
-    .then(function () {
-      return User.findOne({name: name})
-    })
-    .then(function (user) {
-      // create token to send back for auth
-      var token = jwt.encode(name, 'secret');
-      res.json({token: token});
     })
     .catch(function (error) {
       next(error);

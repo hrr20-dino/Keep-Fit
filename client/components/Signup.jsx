@@ -29,15 +29,16 @@ export default class Signup extends React.Component {
     newUser.name = this.state.name;
     newUser.pass = this.state.pass;
     $.post(`/api/signup/`, newUser, function(err, resp) {
-      if(err) {
-        console.log('Your account cannot be submitted at this time. Already ' +  err);
-      } else {
-        console.log('The following account has been submitted: ' + resp);
+      if(!err) {
+        throw 'Your account cannot be submitted at this time. Already ' +  err;
       }
     })
-    //browserHistory.push('/');
-
-  }
+    .done(function(body) {
+      window.localStorage.setItem('com.FitKeeper', body.token);
+      window.sessionStorage.setItem('user', body.name);
+      browserHistory.push(`/`);
+    });
+  };
 
 
 
@@ -47,7 +48,7 @@ export default class Signup extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3 signup-form text-center">
-            <h1>Sign up!</h1>
+            <h1>Sign Up</h1>
               <div className="col-sm-6 col-sm-offset-3">
                 <form>
                   <label className="text-left">Username:
@@ -70,8 +71,11 @@ export default class Signup extends React.Component {
                   className="btn btn-default margin-top-10"
                   onClick={this.signUp}>Sign Up</button>
                 </form>
+                <h6>Already a member? <Link to='/signin'>Sign in Here!</Link></h6>
               </div>
+
           </div>
+
         </div>
       </div>
     )
